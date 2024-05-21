@@ -1,4 +1,6 @@
+from src.widget import get_clear_data
 from src.widget import mask_bank_data
-from src.masks import get_clear_data
-print(get_clear_data("2018-07-11T02:26:18.671407"))
 
+if __name__ == '__main__':
+    print(get_clear_data("2018-07-11T02:26:18.671407"))
+    print(mask_bank_data("visa hila 3485858584989034"))
