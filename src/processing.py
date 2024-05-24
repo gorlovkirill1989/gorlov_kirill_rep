@@ -1,9 +1,11 @@
 def get_dict_by_key(list_of_dicts: list, state: str = "EXECUTED") -> dict:
     """Функция, которая обходит список словарей и возвращает словарь по ключу"""
     for dictionary in list_of_dicts:
+        new_dict_list = []
         dictionary.get(state)
         if dictionary["state"] == state:
-            return dictionary
+            new_dict_list.append(dictionary)
+            return new_dict_list
 
 
 def get_dict_by_data(list_of_dicts: list, sort_by_client=True) -> list[dict]:
