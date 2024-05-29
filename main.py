@@ -7,7 +7,6 @@ if __name__ == "__main__":
 
     print(mask_acc_number(11112222333344445555))
 
-
     print(
         get_dict_by_key(
             [

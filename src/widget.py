@@ -18,7 +18,7 @@ def mask_bank_data(bank_data: str) -> str:
     return " ".join(data_parts)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(mask_bank_data("Maestro 1596837868705199"))
     print(mask_bank_data("Visa Classic 6831982476737658"))
     print(get_clear_data("2018-07-11T02:26:18.671407"))
