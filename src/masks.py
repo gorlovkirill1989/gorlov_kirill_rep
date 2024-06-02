@@ -1,10 +1,12 @@
-def mask_card_numbers(nums: str) -> str:
+def mask_card_numbers(nums: str | int) -> str:
     """Функция, которая маскирует номер карты"""
+    nums = str(nums)
     return f"{nums[0:4]} {nums[4:6]}** **** {nums[-4:]}"
 
 
 def mask_acc_number(nums: str) -> str:
     """Функция, которая маскирует номер счета"""
+    nums = str(nums)
     return f"**{nums[-4:]}"
 
 

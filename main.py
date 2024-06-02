@@ -1,7 +1,12 @@
 from src.processing import get_dict_by_data, get_dict_by_key
 from src.widget import get_clear_data, mask_bank_data
+from src.masks import mask_acc_number, mask_card_numbers, get_mask_numbers
 
 if __name__ == "__main__":
+    print(mask_card_numbers(7777888811119999))
+
+    print(mask_acc_number(11112222333344445555))
+
     print(
         get_dict_by_key(
             [
@@ -12,3 +17,4 @@ if __name__ == "__main__":
             ],
         )
     )
+    print(mask_bank_data("Visa Platinum 7000792289606361"))

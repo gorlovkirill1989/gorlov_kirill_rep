@@ -20,6 +20,15 @@
 
 `get_dict_by_data` Функция,в котором исходные словари отсортированы по убыванию даты
 
+#
+## Пакет `tests`:
+#### test_masks.py - тестирование функций: `mask_card_numbers`, `mask_acc_number`, `get_mask_numbers`
+
+#### test_widget.py - тестирование функций: `get_clear_data`, `mask_bank_data`
+
+#### test_processing.py - тестирование функций: `get_dict_by_key`, `get_dict_by_data`
+
+### conftest.py - фикстуры (тестовые данные) 
 
 
 1. Клонируйте репозиторий:
@@ -32,14 +41,6 @@ git clone https://github.com/gorlovkirill1989/gorlov_kirill_rep.git
 pip install -r requirements.txt
 ```
 
-## Использование:
+## тестирование:
 
-1. Какое то банковское приложение.
-
-## Документация:
-
-Дополнительную информацию о структуре проекта и API можно найти в [документации](docs/README.md).
-
-## Лицензия:
-
-Проект распространяется под [лицензией MIT]("Сладкие булочки").
+тестирование можно сделать командой `pytest` 
