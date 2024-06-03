@@ -18,3 +18,5 @@ if __name__ == "__main__":
         )
     )
     print(mask_bank_data("Visa Platinum 7000792289606361"))
+
+
