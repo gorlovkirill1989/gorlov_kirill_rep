@@ -17,15 +17,8 @@ def card_number_generator(start_num: int, limit_num: int) -> str:
     limit_num: конечный номер карты
     """
     for num in range(start_num, limit_num + 1):
-        static_card_num = "0000000000000000"
+        static_card_num = "00000000000000000"
         str_number = str(num)
         card_number_str = static_card_num[: -len(str_number)] + str_number
 
-        yield f"{card_number_str[:5]} {card_number_str[5:9]} {card_number_str[9:13]} {card_number_str[13:17]}"
-
-
-if __name__ == "__main__":
-
-    test_card_number_generator = card_number_generator(2311000, 2311999)
-    for n in range(10):
-        print(next(test_card_number_generator))
+        yield f"{card_number_str[:4]} {card_number_str[4:9]} {card_number_str[9:13]} {card_number_str[13:]}"

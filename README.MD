@@ -4,7 +4,7 @@
 
 Проект "Приложение для банка" - нихрена не понятно, но очень интересно
 
-Тут можно найти:
+Функции:
 
 `mask_card_numbers` - Функция, которая маскирует номер карты
 
@@ -20,6 +20,16 @@
 
 `get_dict_by_data` Функция,в котором исходные словари отсортированы по убыванию даты
 
+`filter_by_currency` Функция, которая выдает итератор по заданной валюте
+
+Генераторы:
+`filter_by_currency` Функция, которая выдает итератор по заданной валюте
+
+`transactions_discriptions` генератор, который принимает список словарей и возвращает описание каждой операции по очереди
+
+`card_number_generator` генератор номера карты
+
+
 #
 ## Пакет `tests`:
 #### test_masks.py - тестирование функций: `mask_card_numbers`, `mask_acc_number`, `get_mask_numbers`
@@ -28,7 +38,10 @@
 
 #### test_processing.py - тестирование функций: `get_dict_by_key`, `get_dict_by_data`
 
-### conftest.py - фикстуры (тестовые данные) 
+#### test_generators - тестирование функций/генераторов: `filter_by_currency`, `transactions_discriptions`, `card_number_generator`
+
+#### conftest.py - фикстуры (тестовые данные) 
+
 
 
 1. Клонируйте репозиторий:
