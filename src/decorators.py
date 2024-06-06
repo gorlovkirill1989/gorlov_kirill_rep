@@ -1,4 +1,9 @@
+from functools import wraps
+
+
+# вспомогательная функция
 def _log(message, filename=None):
+    """Прокидывание файла"""
     if filename:
         with open(filename, "a") as file:
             print(message, file=file)
@@ -6,8 +11,12 @@ def _log(message, filename=None):
         print(message)
 
 
+# декоратор логирования
 def log(filename: str = None):
     def my_decorator(func):
+        """Декоратор логирования функций"""
+
+        @wraps(func)
         def wrapper(*args, **kwargs):
 
             func_name = func.__name__

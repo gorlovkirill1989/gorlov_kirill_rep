@@ -29,6 +29,9 @@
 
 `card_number_generator` генератор номера карты
 
+Декораторы:
+`log` - Декоратор логирования
+
 
 #
 ## Пакет `tests`:
@@ -39,6 +42,8 @@
 #### test_processing.py - тестирование функций: `get_dict_by_key`, `get_dict_by_data`
 
 #### test_generators - тестирование функций/генераторов: `filter_by_currency`, `transactions_discriptions`, `card_number_generator`
+
+#### test_decorator - тестирование декоратора: `log`
 
 #### conftest.py - фикстуры (тестовые данные) 
 
