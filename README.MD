@@ -52,9 +52,9 @@
 
 #### test_decorator - тестирование декоратора: `log`
 
-#### test_utils - тестирование функции `test_get_transactions_data`
+#### test_utils - тестирование функции `test_get_transactions_data`, `get_transaction_amount`
 
-#### test_external_api - тестировании функции `convert`, `get_transaction_amount`
+#### test_external_api - тестировании функции `convert`
 
 #### conftest.py - фикстуры (тестовые данные)
 

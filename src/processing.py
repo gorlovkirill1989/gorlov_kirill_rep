@@ -1,4 +1,7 @@
-def get_dict_by_key(list_of_dicts: list, state: str = "EXECUTED") -> dict:
+from typing import Any
+
+
+def get_dict_by_key(list_of_dicts: Any, state: str = "EXECUTED") -> Any:
     """Функция, которая обходит список словарей и возвращает словарь по ключу"""
     new_dict_list = []
     for dictionary in list_of_dicts:
