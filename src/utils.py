@@ -18,14 +18,17 @@ def get_transactions_data(file_path: str) -> list[dict]:
             # Проверяем, является ли содержимое списком
             if not isinstance(json_data_transactions, list):
                 return []
+                logger.info("содержимое файла JSON не является списком")
+            logger.info("содержимое файла JSON успешно передано")
             return json_data_transactions
 
     except json.JSONDecodeError:
         # Если файл не JSON
+        logger.info("Формат файла не JSON")
         return []
 
     except FileNotFoundError:
-        # Если файл не найден
+        logger.info("файл JSON не найден")
         return []
 
 
@@ -35,8 +38,10 @@ def get_transaction_amount(transaction: dict) -> float:
     currency = transaction["operationAmount"]["currency"]["code"]
 
     if currency == "RUB":
+        logger.info("Сумма транзакции передана в RUB")
         return amount
 
+    logger.info(f"Сумма транзакции передана в {currency}")
     return convert(amount, currency)
 
 
@@ -45,4 +50,4 @@ if __name__ == "__main__":
     path_to_file = os.path.join(ROOT_DIR, "data", "operations.json")
 
     operations = get_transactions_data(path_to_file)
-    print(operations)
+
