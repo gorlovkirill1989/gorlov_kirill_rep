@@ -1,4 +1,5 @@
 import pytest
+
 from src.widget import get_clear_data, mask_bank_data
 
 

@@ -12,7 +12,7 @@ def _log(message, filename=None):
 
 
 # декоратор логирования
-def log(filename: str = None):
+def log(filename: str = ""):
     def my_decorator(func):
         """Декоратор логирования функций"""
 

@@ -1,5 +1,4 @@
-from src.processing import get_dict_by_key, get_dict_by_data
-import pytest
+from src.processing import get_dict_by_data, get_dict_by_key
 
 
 def test_get_dict_by_key(bank_base):

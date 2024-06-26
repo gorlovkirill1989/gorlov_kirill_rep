@@ -1,18 +1,15 @@
-from src.processing import get_dict_by_data, get_dict_by_key
-from src.widget import get_clear_data, mask_bank_data
-from src.masks import mask_acc_number, mask_card_numbers, get_mask_numbers
-from src.decorators import log
+# def add(*args, **kwargs):
+#     def sum2(*args, **kwargs):
+#         return x + y + z
+#     return sum2
+#
+some = [1, 2, 3]
+# summer = add(*some)
+# print(summer(*some))
 
-if __name__ == "__main__":
 
-    @log()
-    def add_numbers(x, y):
-        return x / y
+def triple_sum(a, b, c):
+    return a + b + c
 
-    add_numbers(3, 0)
 
-    def hi_wrapper():
-        def hi():
-            print("hopijertoijret!")
-
-        return hi
+triple_sum(*some)
