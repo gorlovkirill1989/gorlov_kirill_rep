@@ -36,4 +36,4 @@ def get_mask_numbers(nums: int | str) -> str:
 
 
 if __name__ == "__main__":
-    get_mask_numbers(1111111111111111)
+    get_mask_numbers(111111111111111)
