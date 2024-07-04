@@ -1,8 +1,10 @@
 import json
 import os
+import re
 
 import pandas as pd
 
+from collections import Counter
 from config import ROOT_DIR
 from src.external_api import convert
 from src.logger import create_logger
@@ -58,6 +60,49 @@ def get_transactions_data(file_path: str) -> list[dict]:
         return []
 
 
+def filter_transactions(transactions, search_string):
+    """
+    Возвращает список словарей банковских операций, описание которых соответствует поисковой строке.
+
+    :param transactions: Список словарей с данными о банковских операциях.
+    :param search_string: Строка поиска для фильтрации описаний операций.
+    :return: Список отфильтрованных словарей операций.
+    """
+    # Компилируем регулярное выражение из поисковой строки
+    pattern = re.compile(search_string, re.IGNORECASE)
+    filtered = []
+    # Фильтруем операции, описание которых соответствует шаблону
+
+    for transaction in transactions:
+        if pattern.search(transaction.get('description', '')):
+            filtered.append(transaction)
+
+    # filtered_transactions = [transaction for transaction in transactions if
+    #                          pattern.search(transaction.get('description', ''))]
+    return filtered
+
+
+def categorize_transactions_with_collections(transactions):
+    """
+    Возвращает словарь с количеством операций по каждой категории, используя Counter из модуля collections.
+
+    :param transactions: Список словарей с данными о банковских операциях.
+    :return: Словарь с количеством операций в каждой категории.
+    """
+    # Инициализация Counter для подсчета операций по категориям
+    category_counts = {}
+
+    # Подсчет операций для каждой категории
+    for transaction in transactions:
+        description = transaction.get('description', '').lower()
+
+        if category_counts.get(description) is None:
+            category_counts[description] = 1
+        else:
+            category_counts[description] += 1
+
+    return dict(category_counts)
+
 def get_transaction_amount(transaction: dict) -> float:
     """функциz, которая возвращает сумму транзакции в рублях, если валюта задана в другой валюте"""
     amount = float(transaction["operationAmount"]["amount"])
@@ -76,4 +121,26 @@ if __name__ == "__main__":
     path_to_file = os.path.join(ROOT_DIR, "data", "transactions_excel.xlsx")
 
     operations = get_transactions_data(path_to_file)
-    print(operations)
+
+
+    #categories = ['Перевод', 'Оплата', 'Зачисление', 'Снятие']
+
+    print(categorize_transactions_with_collections(operations))
+
+
+    #print(filter_transactions(operations, var_i))
+
+    # try:
+    #
+    #
+    #     if var_i == 1:
+    #         get_json_info()
+    #     elif var_i == 2:
+    #         get_csv_info()
+    #     elif var_i == 3:
+    #         get_xlsx_info()
+    #     else:
+    #         print("Иди на хуй!")
+    # except
+
+    #print(operations)
