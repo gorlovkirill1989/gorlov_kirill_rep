@@ -60,12 +60,13 @@ def get_transactions_data(file_path: str) -> list[dict]:
         return []
 
 
-def filter_transactions(transactions, search_string):
+def filter_transactions(transactions, search_string, dict_key='description'):
     """
     Возвращает список словарей банковских операций, описание которых соответствует поисковой строке.
 
     :param transactions: Список словарей с данными о банковских операциях.
     :param search_string: Строка поиска для фильтрации описаний операций.
+    :param dict_key: dict_key
     :return: Список отфильтрованных словарей операций.
     """
     # Компилируем регулярное выражение из поисковой строки
@@ -74,7 +75,7 @@ def filter_transactions(transactions, search_string):
     # Фильтруем операции, описание которых соответствует шаблону
 
     for transaction in transactions:
-        if pattern.search(transaction.get('description', '')):
+        if pattern.search(transaction.get(dict_key, "")):
             filtered.append(transaction)
 
     # filtered_transactions = [transaction for transaction in transactions if
@@ -94,7 +95,7 @@ def categorize_transactions_with_collections(transactions):
 
     # Подсчет операций для каждой категории
     for transaction in transactions:
-        description = transaction.get('description', '').lower()
+        description = transaction.get("description", "").lower()
 
         if category_counts.get(description) is None:
             category_counts[description] = 1
@@ -102,6 +103,7 @@ def categorize_transactions_with_collections(transactions):
             category_counts[description] += 1
 
     return dict(category_counts)
+
 
 def get_transaction_amount(transaction: dict) -> float:
     """функциz, которая возвращает сумму транзакции в рублях, если валюта задана в другой валюте"""
@@ -122,13 +124,11 @@ if __name__ == "__main__":
 
     operations = get_transactions_data(path_to_file)
 
-
-    #categories = ['Перевод', 'Оплата', 'Зачисление', 'Снятие']
+    # categories = ['Перевод', 'Оплата', 'Зачисление', 'Снятие']
 
     print(categorize_transactions_with_collections(operations))
 
-
-    #print(filter_transactions(operations, var_i))
+    # print(filter_transactions(operations, var_i))
 
     # try:
     #
@@ -140,7 +140,7 @@ if __name__ == "__main__":
     #     elif var_i == 3:
     #         get_xlsx_info()
     #     else:
-    #         print("Иди на хуй!")
+    #         print("")
     # except
 
-    #print(operations)
+    # print(operations)
