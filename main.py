@@ -47,8 +47,6 @@ def main():
 
     transactions = get_transactions_data(path_to_file)
 
-    print(len(transactions))
-
     statuses = ["EXECUTED", "CANCELED", "PENDING"]
     status = ''
 
@@ -68,21 +66,19 @@ def main():
 
     transactions = filter_transactions(transactions, status, 'state')
 
-    print(len(transactions))
+    default_tuple = ("1", "2")
 
-    default_tuple = ("да", "нет")
-
-    is_sort_by_date = get_bool_user_input('Отсортировать операции по дате? Да/Нет', default_tuple)
+    is_sort_by_date = get_bool_user_input('Отсортировать операции по дате? \n1. Да\n2. Нет', default_tuple)
 
     if is_sort_by_date:
-        order_by_asc_desc = get_bool_user_input('Отсортировать по возрастанию или по убыванию?',
-                                                ('по возрастанию', 'по убыванию'))
+        order_by_asc_desc = get_bool_user_input('Отсортировать по \n1. возрастанию \n2. по убыванию?',
+                                                ('1', '2'))
 
         transactions.sort(key=lambda x: x.get('date', ''), reverse=not order_by_asc_desc)
 
-    is_rub_only = get_bool_user_input('Выводить только рублевые тразакции? Да/Нет', default_tuple)
+    is_rub_only = get_bool_user_input('Выводить только рублевые тразакции? \n1. Да\n2. Нет', default_tuple)
 
-    is_filter_by_word = get_bool_user_input('Отфильтровать список транзакций по определенному слову в описании? Да/Нет', default_tuple)
+    is_filter_by_word = get_bool_user_input('Отфильтровать список транзакций по определенному слову в описании? \n1. Да\n2. Нет', default_tuple)
 
     if is_filter_by_word:
         word = input('Введите слово, например "Перевод"\n>>> ')
