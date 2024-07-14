@@ -1,7 +1,7 @@
 import os
 
 from config import ROOT_DIR
-from src.utils import filter_transactions, get_transactions_data
+from src.utils import filter_transactions2, get_transactions_data
 from src.widget import get_clear_data, mask_bank_data
 
 
@@ -64,7 +64,7 @@ def main():
 
     print(status)
 
-    transactions = filter_transactions(transactions, status, "state")
+    transactions = filter_transactions2(transactions, status, "state")
 
     default_tuple = ("1", "2")
 
@@ -85,19 +85,23 @@ def main():
 
     if is_filter_by_word:
         word = input('Введите слово, например "Перевод"\n>>> ')
-        transactions = filter_transactions(transactions, word)
+        transactions = filter_transactions2(transactions, word)
 
     if is_rub_only:
         transactions = list(
             filter(lambda x: x.get("operationAmount", {}).get("currency", {}).get("code", "") == "RUB", transactions)
         )
 
-    print("Распечатываю итоговый список транзакций...\n")
+    if not transactions:
+        print("Ничего не найдено...\n")
 
-    for tr in transactions:
-        if tr.get("from", 0) != 0 and tr.get("to", 0) != 0:
-            print(f"{get_clear_data(tr["date"])} {tr["description"]}")
-            print(f"{mask_bank_data(tr.get("from"))} -> {mask_bank_data(tr.get("to"))}\n")
+    else:
+        print("Распечатываю итоговый список транзакций...\n")
+
+        for tr in transactions:
+            if tr.get("from", 0) != 0 and tr.get("to", 0) != 0:
+                print(f"{get_clear_data(tr["date"])} {tr["description"]}")
+                print(f"{mask_bank_data(tr.get("from"))} -> {mask_bank_data(tr.get("to"))}\n")
 
 
 if __name__ == "__main__":

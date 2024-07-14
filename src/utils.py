@@ -1,6 +1,7 @@
 import json
 import os
 import re
+from collections import Counter
 
 import pandas as pd
 
@@ -59,7 +60,18 @@ def get_transactions_data(file_path: str) -> list[dict]:
         return []
 
 
-def filter_transactions(transactions, search_string, dict_key="description"):
+def filter_transactions(transactions, search_string):
+    """
+    Возвращает список словарей банковских операций, описание которых соответствует поисковой строке.
+
+    :param transactions: Список словарей с данными о банковских операциях.
+    :param search_string: Строка поиска для фильтрации описаний операций.
+    :return: Список отфильтрованных словарей операций.
+    """
+    return filter_transactions2(transactions, search_string)
+
+
+def filter_transactions2(transactions, search_string, dict_key="description"):
     """
     Возвращает список словарей банковских операций, описание которых соответствует поисковой строке.
 
@@ -85,26 +97,24 @@ def filter_transactions(transactions, search_string, dict_key="description"):
     return filtered
 
 
-def categorize_transactions_with_collections(transactions):
+def categorize_transactions_with_collections(transactions, categories: list[str]) -> dict:
     """
     Возвращает словарь с количеством операций по каждой категории, используя Counter из модуля collections.
 
     :param transactions: Список словарей с данными о банковских операциях.
+    :param categories: Список категорий.
     :return: Словарь с количеством операций в каждой категории.
     """
-    # Инициализация Counter для подсчета операций по категориям
-    category_counts = {}
+    lowered = list(map(lambda x: x.lower(), categories))
+    accumulator = []
 
-    # Подсчет операций для каждой категории
     for transaction in transactions:
-        description = transaction.get("description", "").lower()
+        category = transaction.get("description", "").lower()
 
-        if category_counts.get(description) is None:
-            category_counts[description] = 1
-        else:
-            category_counts[description] += 1
+        if category in lowered:
+            accumulator.append(category)
 
-    return dict(category_counts)
+    return dict(Counter(accumulator))
 
 
 def get_transaction_amount(transaction: dict) -> float:
@@ -126,9 +136,9 @@ if __name__ == "__main__":
 
     operations = get_transactions_data(path_to_file)
 
-    # categories = ['Перевод', 'Оплата', 'Зачисление', 'Снятие']
+    ctgs = ["перевод организации", "открытие вклада", "Зачисление", "Снятие"]
 
-    print(categorize_transactions_with_collections(operations))
+    print(categorize_transactions_with_collections(operations, ctgs))
 
     # print(filter_transactions(operations, var_i))
 
