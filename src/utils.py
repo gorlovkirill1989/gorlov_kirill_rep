@@ -4,7 +4,6 @@ import re
 
 import pandas as pd
 
-from collections import Counter
 from config import ROOT_DIR
 from src.external_api import convert
 from src.logger import create_logger
@@ -60,7 +59,7 @@ def get_transactions_data(file_path: str) -> list[dict]:
         return []
 
 
-def filter_transactions(transactions, search_string, dict_key='description'):
+def filter_transactions(transactions, search_string, dict_key="description"):
     """
     Возвращает список словарей банковских операций, описание которых соответствует поисковой строке.
 
@@ -75,7 +74,10 @@ def filter_transactions(transactions, search_string, dict_key='description'):
     # Фильтруем операции, описание которых соответствует шаблону
 
     for transaction in transactions:
-        if pattern.search(transaction.get(dict_key, "")):
+        value = transaction.get(dict_key, "")
+        if isinstance(value, float):
+            value = str(value)
+        if pattern.search(value):
             filtered.append(transaction)
 
     # filtered_transactions = [transaction for transaction in transactions if

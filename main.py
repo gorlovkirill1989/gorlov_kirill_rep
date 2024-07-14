@@ -1,13 +1,13 @@
 import os
-from typing import Any
 
 from config import ROOT_DIR
-from src.utils import get_transactions_data, filter_transactions
+from src.utils import filter_transactions, get_transactions_data
+from src.widget import get_clear_data, mask_bank_data
 
 
 def get_user_input(description: str = "", fail: str = "", options: list[str] = ()) -> str:
     while True:
-        value = input(f'{description}\n>>> ').lower()
+        value = input(f"{description}\n>>> ").lower()
 
         if not options:
             return value
@@ -19,7 +19,7 @@ def get_user_input(description: str = "", fail: str = "", options: list[str] = (
         return value
 
 
-def get_bool_user_input(description: str = "", options: tuple[str, str] = ('', '')) -> bool:
+def get_bool_user_input(description: str = "", options: tuple[str, str] = ("", "")) -> bool:
     fail = "Нет такого варианта меню. Введите пункт меню заново"
     # return get_user_input(description=description, options=list(options), fail=fail) == options[0]
     return get_user_input(description=description, options=["1", "2"], fail=fail) == "1"
@@ -48,9 +48,9 @@ def main():
     transactions = get_transactions_data(path_to_file)
 
     statuses = ["EXECUTED", "CANCELED", "PENDING"]
-    status = ''
+    status = ""
 
-    print('Введите статус, по которому необходимо выполнить фильтрацию.\n')
+    print("Введите статус, по которому необходимо выполнить фильтрацию.\n")
 
     while True:
         value = input(f'Доступные для фильтровки статусы: {", ".join(statuses)}\n>>> ')
@@ -64,33 +64,40 @@ def main():
 
     print(status)
 
-    transactions = filter_transactions(transactions, status, 'state')
+    transactions = filter_transactions(transactions, status, "state")
 
     default_tuple = ("1", "2")
 
-    is_sort_by_date = get_bool_user_input('Отсортировать операции по дате? \n1. Да\n2. Нет', default_tuple)
+    is_sort_by_date = get_bool_user_input("Отсортировать операции по дате? \n1. Да\n2. Нет", default_tuple)
 
     if is_sort_by_date:
-        order_by_asc_desc = get_bool_user_input('Отсортировать по \n1. возрастанию \n2. по убыванию?',
-                                                ('1', '2'))
+        order_by_asc_desc = get_bool_user_input("Отсортировать по \n1. возрастанию \n2. по убыванию?", ("1", "2"))
 
-        transactions.sort(key=lambda x: x.get('date', ''), reverse=not order_by_asc_desc)
+        for transaction in transactions:
+            if transaction.get("date", "") != "":
+                transactions.sort(key=lambda x: x.get("date", ""), reverse=not order_by_asc_desc)
 
-    is_rub_only = get_bool_user_input('Выводить только рублевые тразакции? \n1. Да\n2. Нет', default_tuple)
+    is_rub_only = get_bool_user_input("Выводить только рублевые тразакции? \n1. Да\n2. Нет", default_tuple)
 
-    is_filter_by_word = get_bool_user_input('Отфильтровать список транзакций по определенному слову в описании? \n1. Да\n2. Нет', default_tuple)
+    is_filter_by_word = get_bool_user_input(
+        "Отфильтровать список транзакций по определенному слову в описании? \n1. Да\n2. Нет", default_tuple
+    )
 
     if is_filter_by_word:
         word = input('Введите слово, например "Перевод"\n>>> ')
         transactions = filter_transactions(transactions, word)
 
     if is_rub_only:
-        transactions = list(filter(lambda x: x.get('operationAmount', {}).get('currency', {}).get('code', '') == 'RUB', transactions))
+        transactions = list(
+            filter(lambda x: x.get("operationAmount", {}).get("currency", {}).get("code", "") == "RUB", transactions)
+        )
 
-    print('Распечатываю итоговый список транзакций...\n')
+    print("Распечатываю итоговый список транзакций...\n")
 
     for tr in transactions:
-        print(tr)
+        if tr.get("from", 0) != 0 and tr.get("to", 0) != 0:
+            print(f"{get_clear_data(tr["date"])} {tr["description"]}")
+            print(f"{mask_bank_data(tr.get("from"))} -> {mask_bank_data(tr.get("to"))}\n")
 
 
 if __name__ == "__main__":

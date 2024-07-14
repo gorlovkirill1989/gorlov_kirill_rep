@@ -1,4 +1,5 @@
-from src.generators import card_number_generator, filter_by_currency, transactions_discriptions
+from src.generators import (card_number_generator, filter_by_currency,
+                            transactions_discriptions)
 
 
 def test_filter_by_currency(bank_operations):
