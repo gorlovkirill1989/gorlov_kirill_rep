@@ -12,6 +12,9 @@ def get_clear_data(data_time: str) -> str:
 def mask_bank_data(bank_data: str) -> str:
     """Функция, которая отделяет название карты и счета от номера"""
 
+    if isinstance(bank_data, float):
+        bank_data = str(bank_data)
+
     data_parts = bank_data.split()
     data_parts[-1] = get_mask_numbers(data_parts[-1])
 

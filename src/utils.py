@@ -1,5 +1,7 @@
 import json
 import os
+import re
+from collections import Counter
 
 import pandas as pd
 
@@ -58,6 +60,63 @@ def get_transactions_data(file_path: str) -> list[dict]:
         return []
 
 
+def filter_transactions(transactions, search_string):
+    """
+    Возвращает список словарей банковских операций, описание которых соответствует поисковой строке.
+
+    :param transactions: Список словарей с данными о банковских операциях.
+    :param search_string: Строка поиска для фильтрации описаний операций.
+    :return: Список отфильтрованных словарей операций.
+    """
+    return filter_transactions2(transactions, search_string)
+
+
+def filter_transactions2(transactions, search_string, dict_key="description"):
+    """
+    Возвращает список словарей банковских операций, описание которых соответствует поисковой строке.
+
+    :param transactions: Список словарей с данными о банковских операциях.
+    :param search_string: Строка поиска для фильтрации описаний операций.
+    :param dict_key: dict_key
+    :return: Список отфильтрованных словарей операций.
+    """
+    # Компилируем регулярное выражение из поисковой строки
+    pattern = re.compile(search_string, re.IGNORECASE)
+    filtered = []
+    # Фильтруем операции, описание которых соответствует шаблону
+
+    for transaction in transactions:
+        value = transaction.get(dict_key, "")
+        if isinstance(value, float):
+            value = str(value)
+        if pattern.search(value):
+            filtered.append(transaction)
+
+    # filtered_transactions = [transaction for transaction in transactions if
+    #                          pattern.search(transaction.get('description', ''))]
+    return filtered
+
+
+def categorize_transactions_with_collections(transactions, categories: list[str]) -> dict:
+    """
+    Возвращает словарь с количеством операций по каждой категории, используя Counter из модуля collections.
+
+    :param transactions: Список словарей с данными о банковских операциях.
+    :param categories: Список категорий.
+    :return: Словарь с количеством операций в каждой категории.
+    """
+    lowered = list(map(lambda x: x.lower(), categories))
+    accumulator = []
+
+    for transaction in transactions:
+        category = transaction.get("description", "").lower()
+
+        if category in lowered:
+            accumulator.append(category)
+
+    return dict(Counter(accumulator))
+
+
 def get_transaction_amount(transaction: dict) -> float:
     """функциz, которая возвращает сумму транзакции в рублях, если валюта задана в другой валюте"""
     amount = float(transaction["operationAmount"]["amount"])
@@ -76,4 +135,24 @@ if __name__ == "__main__":
     path_to_file = os.path.join(ROOT_DIR, "data", "transactions_excel.xlsx")
 
     operations = get_transactions_data(path_to_file)
-    print(operations)
+
+    ctgs = ["перевод организации", "открытие вклада", "Зачисление", "Снятие"]
+
+    print(categorize_transactions_with_collections(operations, ctgs))
+
+    # print(filter_transactions(operations, var_i))
+
+    # try:
+    #
+    #
+    #     if var_i == 1:
+    #         get_json_info()
+    #     elif var_i == 2:
+    #         get_csv_info()
+    #     elif var_i == 3:
+    #         get_xlsx_info()
+    #     else:
+    #         print("")
+    # except
+
+    # print(operations)
